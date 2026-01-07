@@ -44,6 +44,33 @@ Alternatively, you can start a deputy independently as above. Note that when the
 
 If the commands you are using a deputy to start require specific environment variables to be available, you must have them defined in the terminal when starting the deputy.
 
+### Using bash aliases
+
+To use bash aliases in procman commands, you need to run them through bash with `eval`:
+
+```bash
+cmd "my-alias" {
+    exec = "bash -c 'shopt -s expand_aliases && source ~/.bashrc && eval my_alias'";
+    deputy = "deputy_id";
+}
+```
+
+**Recommended**: Use bash functions instead of aliases for better reliability:
+```bash
+# In your ~/.bashrc, define a function:
+my_function() {
+    cd /path && ./run.sh "$@"
+}
+
+# Then use it in procman:
+cmd "my-command" {
+    exec = "bash -c 'source ~/.bashrc && my_function'";
+    deputy = "deputy_id";
+}
+```
+
+See the [FAQ documentation](procman_ros/doc/content/faq.md) for more details and examples.
+
 ## C++ API
 
 Procman also provides a C++ API for spawning and managing child processes,

@@ -21,3 +21,4 @@ control of processes.
 - [Design overview](\ref procman_design)
 - \ref procman_config_file
 - [Communications protocol](\ref procman_comms)
+- \ref procman_faq

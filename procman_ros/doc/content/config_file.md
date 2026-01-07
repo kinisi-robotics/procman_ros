@@ -153,6 +153,52 @@ cmd "list home directory" {
 }
 \endcode
 
+## Using bash aliases and shell features. {#procman_config_file_commands_bash_aliases}
+
+Procman executes commands directly without going through a shell. This means that
+shell-specific features like bash aliases, functions, pipes, and redirections are
+not available by default.
+
+To use bash aliases or other shell features, you need to explicitly run your
+command through a bash shell using `bash -c`. For aliases specifically, you need
+to use `eval` to properly expand them:
+
+\code
+cmd "my-alias-command" {
+    # Use bash -c with eval to run a bash alias
+    exec = "bash -c 'shopt -s expand_aliases && source ~/.bashrc && eval my_alias'";
+    deputy = "deputy_id";
+}
+\endcode
+
+**Recommended**: For better reliability, convert aliases to bash functions in your
+`~/.bashrc` file, as functions work more smoothly with non-interactive shells.
+
+For more information and examples on using bash aliases and other shell features,
+see the [FAQ on bash aliases](\ref procman_faq_bash_aliases).
+
+Additional examples with shell features:
+
+\code
+# Using a bash function (RECOMMENDED over aliases)
+cmd "function-example" {
+    exec = "bash -c 'source ~/.bashrc && my_function arg1 arg2'";
+    deputy = "deputy_id";
+}
+
+# Using pipes and redirections
+cmd "piped-command" {
+    exec = "bash -c 'cat logfile.txt | grep ERROR'";
+    deputy = "deputy_id";
+}
+
+# Using the actual command instead of an alias (most reliable)
+cmd "direct-command" {
+    exec = "bash -c 'cd /opt/myapp && ./run.sh --verbose'";
+    deputy = "deputy_id";
+}
+\endcode
+
 # Groups {#procman_config_file_groups}
 
 In the same way that commands can be grouped together in the procman sheriff

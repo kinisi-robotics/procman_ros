@@ -1,0 +1,91 @@
+# Example configuration file demonstrating bash alias usage
+# 
+# This file shows various ways to use bash aliases and shell features
+# with procman commands.
+
+group "bash_alias_examples" {
+    # Example 1: Using a bash alias with eval (REQUIRED for aliases)
+    cmd "alias-with-eval" {
+        # This enables alias expansion, sources ~/.bashrc, and uses eval to expand the alias
+        exec = "bash -c 'shopt -s expand_aliases && source ~/.bashrc && eval ll'";
+        deputy = "localhost";
+    }
+
+    # Example 2: Using bash functions (RECOMMENDED over aliases)
+    cmd "bash-function" {
+        # Bash functions work more reliably than aliases
+        # In your ~/.bashrc: my_function() { echo "Hello from function"; }
+        exec = "bash -c 'source ~/.bashrc && my_function arg1 arg2'";
+        deputy = "localhost";
+    }
+
+    # Example 3: Defining an inline function (more reliable than inline alias)
+    cmd "inline-function" {
+        # Functions work better than aliases for non-interactive shells
+        exec = "bash -c 'myecho() { echo \"Hello from procman!\"; }; myecho'";
+        deputy = "localhost";
+    }
+
+    # Example 4: Direct command (MOST RELIABLE)
+    cmd "direct-command" {
+        # Skip aliases entirely and use the actual command
+        exec = "bash -c 'ls -la /tmp | head -10'";
+        deputy = "localhost";
+    }
+
+    # Example 5: Using pipes and redirections
+    cmd "pipes-example" {
+        # Bash shell features like pipes work when using bash -c
+        exec = "bash -c 'echo \"Testing procman\" | tee /tmp/procman-test.log'";
+        deputy = "localhost";
+    }
+
+    # Example 6: Complex shell command with variables
+    cmd "complex-shell-command" {
+        # Multiple shell features in one command
+        exec = "bash -c 'cd /tmp && ls -la | grep procman > procman-files.txt'";
+        deputy = "localhost";
+    }
+
+    # Example 7: Using environment variables with functions
+    cmd "env-with-function" {
+        # Set environment variable and use a function
+        exec = "bash -c 'export MY_VAR=test && source ~/.bashrc && my_function'";
+        deputy = "localhost";
+    }
+
+    # Example 8: Wrapper script approach (BEST for complex commands)
+    cmd "wrapper-script" {
+        # Create a wrapper script that handles all the alias/function loading
+        # This is the most maintainable approach for complex setups
+        exec = "/usr/local/bin/my_wrapper.sh";
+        deputy = "localhost";
+    }
+}
+
+# Example 9: Combining procman environment variables with bash
+cmd "procman-env-with-bash" {
+    # Procman sets DISPLAY first, then bash runs the command
+    exec = "DISPLAY=:0 bash -c 'xterm'";
+    deputy = "localhost";
+}
+
+# Example 10: Using a specific bash rc file
+cmd "custom-bashrc" {
+    # Source a custom bash configuration file (replace with your actual path)
+    exec = "bash -c 'source /opt/myapp/.bashrc && my_function'";
+    deputy = "localhost";
+}
+
+# Example 11: Converting an alias to direct command
+# Instead of using alias: alias myapp="cd /opt/myapp && ./run.sh --verbose"
+# Use directly:
+cmd "myapp-direct" {
+    exec = "bash -c 'cd /opt/myapp && ./run.sh --verbose'";
+    deputy = "localhost";
+}
+
+# Script example: Start all bash alias examples
+script "start-bash-alias-examples" {
+    start group "bash_alias_examples";
+}
