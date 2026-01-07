@@ -194,7 +194,7 @@ cmd "piped-command" {
 
 # Using the actual command instead of an alias (most reliable)
 cmd "direct-command" {
-    exec = "bash -c 'cd /path/to/app && ./run.sh --verbose'";
+    exec = "bash -c 'cd /opt/myapp && ./run.sh --verbose'";
     deputy = "deputy_id";
 }
 \endcode

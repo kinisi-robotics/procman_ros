@@ -99,7 +99,7 @@ cmd "my-command" {
 
 Let's say you have an alias defined in your `~/.bashrc`:
 \code
-alias myapp="cd /path/to/myapp && ./run.sh --verbose"
+alias myapp="cd /opt/myapp && ./run.sh --verbose"
 \endcode
 
 To use this in procman:
@@ -117,7 +117,7 @@ cmd "My Application" {
 In your `~/.bashrc`, define it as a function instead:
 \code
 myapp() {
-    cd /path/to/myapp && ./run.sh --verbose "$@"
+    cd /opt/myapp && ./run.sh --verbose "$@"
 }
 \endcode
 

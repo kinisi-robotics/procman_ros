@@ -72,8 +72,8 @@ cmd "procman-env-with-bash" {
 
 # Example 10: Using a specific bash rc file
 cmd "custom-bashrc" {
-    # Source a custom bash configuration file
-    exec = "bash -c 'source /path/to/custom/.bashrc && my_function'";
+    # Source a custom bash configuration file (replace with your actual path)
+    exec = "bash -c 'source /opt/myapp/.bashrc && my_function'";
     deputy = "localhost";
 }
 
@@ -85,7 +85,7 @@ cmd "myapp-direct" {
     deputy = "localhost";
 }
 
-# Script example: Start all alias examples
-script "start-alias-examples" {
+# Script example: Start all bash alias examples
+script "start-bash-alias-examples" {
     start group "bash_alias_examples";
 }
